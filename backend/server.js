@@ -1,19 +1,17 @@
 import express from "express";
+import dotenv from "dotenv";
 import cors from "cors";
+import connectDB from "./config/db.js";
+import studentRoutes from "./routes/studentRoutes.js";
+
+dotenv.config();
+connectDB();
 
 const app = express();
-const PORT = 5000;
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Sample API route
-app.get("/", (req, res) => {
-  res.send("Hello from Backend!");
-});
+app.use("/api/students", studentRoutes);
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
